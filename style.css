@@ -1,0 +1,123 @@
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F1F4F8; /* Typical default primaryBackground */
+    color: #14181B;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* App Bar Styles */
+.app-bar {
+    background-color: #2FA084;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: white;
+    font-weight: 500;
+    /* Mimicking the 250px right padding from Flutter, though flexbox handles this cleaner */
+    margin-right: auto; 
+}
+
+.nav-links {
+    display: flex;
+    gap: 10px;
+    margin-right: auto;
+    transform: translateX(-50px); /* Center balancing */
+}
+
+/* Navigation & Action Buttons */
+.nav-btn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Secondary hover logic */
+    color: #278872;
+}
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.hero-section {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.gradient-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 48px; /* Assuming displayLarge size */
+    font-weight: 700;
+    margin-bottom: 20px;
+    /* Gradient direction RTL applied here */
+    background: linear-gradient(to left, #4b39ef, #278872); /* Assumed secondary color as purple/blue */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #57636C;
+    margin-bottom: 30px;
+}
+
+/* CTA Row & Primary Buttons */
+.cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Equivalent to 20px padding in Flutter code */
+}
+
+.primary-btn {
+    background-color: #2FA084; /* Assuming primary color */
+    color: white;
+    width: 140px;
+    height: 60px;
+    border: none;
+    border-radius: 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.primary-btn:hover {
+    background-color: #E0E3E7; /* Simulating FF theme secondary hover */
+    color: #278872;
+}
