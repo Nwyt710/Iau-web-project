@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Healthy Leaf</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* --- About Page --- */
+    .about-hero {
+      padding: 80px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(47, 160, 132, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .about-hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    /* Mission section */
+    .mission-section {
+      padding: 60px 24px;
+    }
+
+    .mission-grid {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .mission-image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 12px 40px var(--shadow);
+    }
+
+    .mission-image img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .mission-image:hover img {
+      transform: scale(1.04);
+    }
+
+    .mission-text h2 {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .mission-text p {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    /* Stats */
+    .stats-section {
+      padding: 60px 24px;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-light) 100%);
+      color: #fff;
+    }
+
+    .stats-grid {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+
+    .stat-item {
+      padding: 24px;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+
+    /* Team */
+    .team-section {
+      padding: 80px 24px;
+    }
+
+    .team-section .section-title,
+    .team-section .section-subtitle {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .team-grid {
+      max-width: 1080px;
+      margin: 48px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .team-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      transition: all var(--transition);
+    }
+
+    .team-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px var(--shadow);
+      border-color: var(--primary);
+    }
+
+    .team-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 16px;
+      border: 3px solid var(--accent);
+    }
+
+    .team-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .team-bio {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .team-social {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .team-social a {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all var(--transition);
+    }
+
+    .team-social a:hover {
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Values */
+    .values-section {
+      padding: 60px 24px;
+    }
+
+    .values-grid {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .value-card {
+      display: flex;
+      gap: 20px;
+      padding: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: all var(--transition);
+    }
+
+    .value-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 8px 32px var(--shadow);
+    }
+
+    .value-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--accent);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .value-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .value-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .mission-grid {
+        grid-template-columns: 1fr;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .team-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+      }
+      .values-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background decoration -->
+  <div class="bg-decoration">
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">Healthy Leaf</a>
+      <div class="navbar-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="trainers.html" class="nav-link">Diet Trainer</a>
+        <a href="custom-meals.html" class="nav-link">Custom Meals</a>
+        <a href="about.html" class="nav-link active">About Us</a>
+      </div>
+      <button class="nav-settings desktop-only" aria-label="Settings">
+        <i class="fas fa-cog"></i> Settings
+      </button>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="trainers.html" class="nav-link">Diet Trainer</a>
+      <a href="custom-meals.html" class="nav-link">Custom Meals</a>
+      <a href="about.html" class="nav-link active">About Us</a>
+      <button class="nav-link open-settings"><i class="fas fa-cog"></i> Settings</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero -->
+    <section class="about-hero">
+      <h1 class="fade-in">About <span class="gradient-text">Healthy Leaf</span></h1>
+      <p class="fade-in fade-in-delay-1">We believe health should be accessible, personalized, and sustainable. Our mission is to make nutritious eating effortless for everyone.</p>
+    </section>
+
+    <!-- Mission -->
+    <section class="mission-section">
+      <div class="mission-grid">
+        <div class="mission-image fade-in">
+          <img src="https://picsum.photos/seed/healthymission/600/360.jpg" alt="Our mission">
+        </div>
+        <div class="mission-text fade-in fade-in-delay-1">
+          <h2>Our Mission</h2>
+          <p>Healthy Leaf was founded with a simple yet powerful vision: to bridge the gap between knowing what to eat and actually eating it. We combine expert nutritional guidance with convenient meal delivery to make healthy living a reality, not just a resolution.</p>
+          <p>Our platform connects you with certified diet trainers who create personalized plans, while our custom meal builder and delivery service ensure you have everything you need to follow through — no grocery shopping, no meal prep, no guesswork.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-item fade-in">
+          <div class="stat-value">12K+</div>
+          <div class="stat-label">Active Members</div>
+        </div>
+        <div class="stat-item fade-in fade-in-delay-1">
+          <div class="stat-value">120+</div>
+          <div class="stat-label">Expert Trainers</div>
+        </div>
+        <div class="stat-item fade-in fade-in-delay-2">
+          <div class="stat-value">50K+</div>
+          <div class="stat-label">Meals Delivered</div>
+        </div>
+        <div class="stat-item fade-in fade-in-delay-3">
+          <div class="stat-value">98%</div>
+          <div class="stat-label">Satisfaction Rate</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section class="values-section">
+      <div style="text-align:center; margin-bottom:48px;">
+        <h2 class="section-title fade-in">What We <span class="gradient-text">Stand For</span></h2>
+        <p class="section-subtitle mx-auto text-center fade-in fade-in-delay-1">The core principles that guide everything we do.</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card fade-in">
+          <div class="value-icon"><i class="fas fa-seedling"></i></div>
+          <div>
+            <h3>Sustainability</h3>
+            <p>We promote eating habits that are sustainable for both your body and the planet. No crash diets, no waste.</p>
+          </div>
+        </div>
+        <div class="value-card fade-in fade-in-delay-1">
+          <div class="value-icon"><i class="fas fa-user-md"></i></div>
+          <div>
+            <h3>Expert-Led</h3>
+            <p>Every plan and recommendation is backed by certified professionals with proven track records.</p>
+          </div>
+        </div>
+        <div class="value-card fade-in fade-in-delay-2">
+          <div class="value-icon"><i class="fas fa-puzzle-piece"></i></div>
+          <div>
+            <h3>Personalization</h3>
+            <p>We recognize that every body is different. Your plan should reflect your goals, tastes, and lifestyle.</p>
+          </div>
+        </div>
+        <div class="value-card fade-in fade-in-delay-3">
+          <div class="value-icon"><i class="fas fa-hand-holding-heart"></i></div>
+          <div>
+            <h3>Accessibility</h3>
+            <p>Quality nutrition guidance shouldn't be a luxury. We make it affordable and available to everyone.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="team-section">
+      <h2 class="section-title fade-in">Meet the <span class="gradient-text">Team</span></h2>
+      <p class="section-subtitle mx-auto text-center fade-in fade-in-delay-1">The passionate people behind Healthy Leaf.</p>
+      <div class="team-grid">
+        <div class="team-card fade-in">
+          <img src="https://picsum.photos/seed/ceo-faisal/200/200.jpg" alt="Faisal Al-Rashid" class="team-avatar">
+          <div class="team-name">Faisal Al-Rashid</div>
+          <div class="team-role">Founder & CEO</div>
+          <p class="team-bio">Former healthcare consultant who saw the gap between nutrition knowledge and action. Founded Healthy Leaf to make healthy eating truly effortless.</p>
+          <div class="team-social">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+        <div class="team-card fade-in fade-in-delay-1">
+          <img src="https://picsum.photos/seed/cmo-nora/200/200.jpg" alt="Nora Svensson" class="team-avatar">
+          <div class="team-name">Nora Svensson</div>
+          <div class="team-role">Head of Nutrition</div>
+          <p class="team-bio">Registered dietitian with 15 years of clinical experience. Leads our team of trainers and ensures every plan meets the highest standards.</p>
+          <div class="team-social">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+        <div class="team-card fade-in fade-in-delay-2">
+          <img src="https://picsum.photos/seed/cto-omar/200/200.jpg" alt="Omar Khalil" class="team-avatar">
+          <div class="team-name">Omar Khalil</div>
+          <div class="team-role">CTO</div>
+          <p class="team-bio">Full-stack engineer passionate about using technology to improve lives. Built the platform that powers our meal builder and trainer matching.</p>
+          <div class="team-social">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Healthy Leaf</div>
+        <p class="footer-desc">Your Health, Simplified. Personalized nutrition guidance and meal planning for a healthier, happier you.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="trainers.html">Diet Trainer</a></li>
+          <li><a href="custom-meals.html">Custom Meals</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+          <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+          <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+          <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Healthy Leaf. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay" role="dialog" aria-label="Settings">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+      <h2><i class="fas fa-cog"></i> Settings</h2>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Dark Mode</div>
+          <div class="setting-desc">Switch to dark theme</div>
+        </div>
+        <div class="toggle" data-setting="darkMode"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Notifications</div>
+          <div class="setting-desc">Receive meal reminders</div>
+        </div>
+        <div class="toggle active" data-setting="notifications"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Metric Units</div>
+          <div class="setting-desc">Use grams and milliliters</div>
+        </div>
+        <div class="toggle active" data-setting="metric"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

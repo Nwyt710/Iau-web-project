@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Meals — Healthy Leaf</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* --- Custom Meals Page --- */
+    .meals-page {
+      padding: 40px 24px 80px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .meals-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .meals-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .meals-header p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .meals-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* Meal type selector */
+    .meal-type-selector {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .meal-type-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meal-type-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .meal-type-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .meal-type-btn i {
+      font-size: 14px;
+    }
+
+    /* Category tabs */
+    .category-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .category-tab {
+      background: var(--accent);
+      color: var(--primary-dark);
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+      border: none;
+    }
+
+    .category-tab:hover {
+      background: var(--primary-light);
+      color: #fff;
+    }
+
+    .category-tab.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    /* Food items grid */
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .food-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .food-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 4px 16px var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .food-item.in-meal {
+      border-color: var(--primary);
+      background: var(--accent);
+    }
+
+    .food-item-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .food-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .food-item-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .food-item-cal {
+      font-size: 12px;
+      color: var(--text-light);
+    }
+
+    .food-item-add {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: transparent;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .food-item-add:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .food-item.in-meal .food-item-add {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Sidebar — Meal summary */
+    .meal-summary {
+      position: sticky;
+      top: 88px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: 0 4px 24px var(--shadow-dark);
+    }
+
+    .meal-summary h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .meal-summary-type {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+    /* Circular progress */
+    .macro-rings {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .macro-ring {
+      text-align: center;
+    }
+
+    .macro-ring svg {
+      width: 72px;
+      height: 72px;
+      transform: rotate(-90deg);
+    }
+
+    .macro-ring-bg {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 6;
+    }
+
+    .macro-ring-fill {
+      fill: none;
+      stroke-width: 6;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.6s ease;
+    }
+
+    .macro-ring-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .macro-ring-value {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* Selected items list */
+    .selected-items {
+      margin-bottom: 24px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .selected-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .selected-item:last-child {
+      border-bottom: none;
+    }
+
+    .selected-item-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .selected-item-cal {
+      font-size: 13px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .selected-item-remove {
+      background: transparent;
+      color: #E74C3C;
+      font-size: 12px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background var(--transition);
+      margin-left: 8px;
+    }
+
+    .selected-item-remove:hover {
+      background: rgba(231, 76, 60, 0.1);
+    }
+
+    .empty-meal {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+
+    .empty-meal i {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 8px;
+      opacity: 0.4;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-top: 2px solid var(--text);
+      margin-top: 8px;
+    }
+
+    .total-label {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .total-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    /* Order History */
+    .order-history {
+      margin-top: 24px;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .order-history h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .clear-history {
+      background: transparent;
+      color: var(--text-light);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all var(--transition);
+    }
+
+    .clear-history:hover {
+      color: #E74C3C;
+      background: rgba(231, 76, 60, 0.05);
+    }
+
+    .history-item {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .history-item-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .history-item-type {
+      text-transform: capitalize;
+      color: var(--primary-dark);
+    }
+
+    .history-item-cal {
+      color: var(--text-muted);
+    }
+
+    .history-items-list {
+      color: var(--text-light);
+      font-size: 12px;
+      line-height: 1.4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .empty-history {
+      font-size: 13px;
+      color: var(--text-light);
+      text-align: center;
+      padding: 8px 0;
+    }
+
+    @media (max-width: 900px) {
+      .meals-layout {
+        grid-template-columns: 1fr;
+      }
+      .meal-summary {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background decoration -->
+  <div class="bg-decoration">
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">Healthy Leaf</a>
+      <div class="navbar-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="trainers.html" class="nav-link">Diet Trainer</a>
+        <a href="custom-meals.html" class="nav-link active">Custom Meals</a>
+        <a href="about.html" class="nav-link">About Us</a>
+      </div>
+      <button class="nav-settings desktop-only" aria-label="Settings">
+        <i class="fas fa-cog"></i> Settings
+      </button>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="trainers.html" class="nav-link">Diet Trainer</a>
+      <a href="custom-meals.html" class="nav-link active">Custom Meals</a>
+      <a href="about.html" class="nav-link">About Us</a>
+      <button class="nav-link open-settings"><i class="fas fa-cog"></i> Settings</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="meals-page">
+      <!-- Header -->
+      <div class="meals-header fade-in">
+        <h1>Build Your <span class="gradient-text">Custom Meal</span></h1>
+        <p>Select your ingredients and we'll calculate the nutrition facts in real time.</p>
+      </div>
+
+      <div class="meals-layout">
+        <!-- Left: Food selection -->
+        <div class="fade-in fade-in-delay-1">
+          <!-- Meal type -->
+          <div class="meal-type-selector">
+            <button class="meal-type-btn active" data-type="breakfast"><i class="fas fa-sun"></i> Breakfast</button>
+            <button class="meal-type-btn" data-type="lunch"><i class="fas fa-cloud-sun"></i> Lunch</button>
+            <button class="meal-type-btn" data-type="dinner"><i class="fas fa-moon"></i> Dinner</button>
+            <button class="meal-type-btn" data-type="snack"><i class="fas fa-cookie-bite"></i> Snack</button>
+          </div>
+
+          <!-- Category tabs -->
+          <div class="category-tabs" id="categoryTabs"></div>
+
+          <!-- Food grid -->
+          <div class="food-grid" id="foodGrid"></div>
+        </div>
+
+        <!-- Right: Summary sidebar -->
+        <div class="meal-summary fade-in fade-in-delay-2">
+          <h3>Your Meal</h3>
+          <div class="meal-summary-type" id="mealTypeLabel">Breakfast</div>
+
+          <!-- Macro rings -->
+          <div class="macro-rings">
+            <div class="macro-ring">
+              <svg viewBox="0 0 72 72">
+                <circle class="macro-ring-bg" cx="36" cy="36" r="30"></circle>
+                <circle class="macro-ring-fill" id="calRing" cx="36" cy="36" r="30"
+                  stroke="var(--primary)" stroke-dasharray="188.5" stroke-dashoffset="188.5"></circle>
+              </svg>
+              <div class="macro-ring-value" style="color:var(--primary)" id="calValue">0</div>
+              <div class="macro-ring-label">Calories</div>
+            </div>
+            <div class="macro-ring">
+              <svg viewBox="0 0 72 72">
+                <circle class="macro-ring-bg" cx="36" cy="36" r="30"></circle>
+                <circle class="macro-ring-fill" id="proteinRing" cx="36" cy="36" r="30"
+                  stroke="#E67E22" stroke-dasharray="188.5" stroke-dashoffset="188.5"></circle>
+              </svg>
+              <div class="macro-ring-value" style="color:#E67E22" id="proteinValue">0g</div>
+              <div class="macro-ring-label">Protein</div>
+            </div>
+            <div class="macro-ring">
+              <svg viewBox="0 0 72 72">
+                <circle class="macro-ring-bg" cx="36" cy="36" r="30"></circle>
+                <circle class="macro-ring-fill" id="carbRing" cx="36" cy="36" r="30"
+                  stroke="#3498DB" stroke-dasharray="188.5" stroke-dashoffset="188.5"></circle>
+              </svg>
+              <div class="macro-ring-value" style="color:#3498DB" id="carbValue">0g</div>
+              <div class="macro-ring-label">Carbs</div>
+            </div>
+            <div class="macro-ring">
+              <svg viewBox="0 0 72 72">
+                <circle class="macro-ring-bg" cx="36" cy="36" r="30"></circle>
+                <circle class="macro-ring-fill" id="fatRing" cx="36" cy="36" r="30"
+                  stroke="#9B59B6" stroke-dasharray="188.5" stroke-dashoffset="188.5"></circle>
+              </svg>
+              <div class="macro-ring-value" style="color:#9B59B6" id="fatValue">0g</div>
+              <div class="macro-ring-label">Fat</div>
+            </div>
+          </div>
+
+          <!-- Selected items -->
+          <div class="selected-items" id="selectedItems">
+            <div class="empty-meal">
+              <i class="fas fa-plus-circle"></i>
+              Click items to add them to your meal
+            </div>
+          </div>
+
+          <!-- Total -->
+          <div class="total-row">
+            <span class="total-label">Total Calories</span>
+            <span class="total-value" id="totalCalories">0 kcal</span>
+          </div>
+
+          <!-- Action button -->
+          <button class="btn btn-primary" style="width:100%; margin-top:12px;" onclick="orderMeal()">
+            <i class="fas fa-shopping-bag"></i> Order This Meal
+          </button>
+
+          <!-- Order History (Loaded from LocalStorage) -->
+          <div class="order-history">
+            <h4>
+              Past Orders 
+              <button class="clear-history" onclick="clearOrderHistory()" title="Clear history">
+                <i class="fas fa-trash-alt"></i> Clear
+              </button>
+            </h4>
+            <div id="orderHistoryList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Healthy Leaf</div>
+        <p class="footer-desc">Your Health, Simplified. Personalized nutrition guidance and meal planning for a healthier, happier you.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="trainers.html">Diet Trainer</a></li>
+          <li><a href="custom-meals.html">Custom Meals</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+          <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+          <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+          <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Healthy Leaf. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay" role="dialog" aria-label="Settings">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+      <h2><i class="fas fa-cog"></i> Settings</h2>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Dark Mode</div>
+          <div class="setting-desc">Switch to dark theme</div>
+        </div>
+        <div class="toggle" data-setting="darkMode"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Notifications</div>
+          <div class="setting-desc">Receive meal reminders</div>
+        </div>
+        <div class="toggle active" data-setting="notifications"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Metric Units</div>
+          <div class="setting-desc">Use grams and milliliters</div>
+        </div>
+        <div class="toggle active" data-setting="metric"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // --- Food Data ---
+    const foodData = {
+      Proteins: [
+        { name: 'Grilled Chicken', cal: 165, protein: 31, carbs: 0, fat: 3.6, img: 'https://picsum.photos/seed/chicken/104/104.jpg' },
+        { name: 'Salmon Fillet', cal: 208, protein: 20, carbs: 0, fat: 13, img: 'https://picsum.photos/seed/salmon/104/104.jpg' },
+        { name: 'Eggs (2)', cal: 143, protein: 13, carbs: 1, fat: 10, img: 'https://picsum.photos/seed/eggs2/104/104.jpg' },
+        { name: 'Tofu Block', cal: 144, protein: 17, carbs: 3, fat: 9, img: 'https://picsum.photos/seed/tofu/104/104.jpg' },
+        { name: 'Ground Turkey', cal: 170, protein: 21, carbs: 0, fat: 9, img: 'https://picsum.photos/seed/turkey/104/104.jpg' },
+        { name: 'Shrimp', cal: 85, protein: 20, carbs: 0, fat: 0.5, img: 'https://picsum.photos/seed/shrimp/104/104.jpg' }
+      ],
+      Grains: [
+        { name: 'Brown Rice', cal: 216, protein: 5, carbs: 45, fat: 1.8, img: 'https://picsum.photos/seed/brownrice/104/104.jpg' },
+        { name: 'Quinoa', cal: 222, protein: 8, carbs: 39, fat: 3.5, img: 'https://picsum.photos/seed/quinoa/104/104.jpg' },
+        { name: 'Whole Wheat Bread', cal: 69, protein: 4, carbs: 12, fat: 1, img: 'https://picsum.photos/seed/wwbread/104/104.jpg' },
+        { name: 'Oatmeal', cal: 154, protein: 5, carbs: 27, fat: 2.6, img: 'https://picsum.photos/seed/oatmeal/104/104.jpg' },
+        { name: 'Sweet Potato', cal: 103, protein: 2, carbs: 24, fat: 0.1, img: 'https://picsum.photos/seed/sweetpotato/104/104.jpg' }
+      ],
+      Vegetables: [
+        { name: 'Broccoli', cal: 55, protein: 4, carbs: 11, fat: 0.6, img: 'https://picsum.photos/seed/broccoli/104/104.jpg' },
+        { name: 'Spinach', cal: 23, protein: 3, carbs: 3.6, fat: 0.4, img: 'https://picsum.photos/seed/spinach/104/104.jpg' },
+        { name: 'Bell Peppers', cal: 31, protein: 1, carbs: 6, fat: 0.3, img: 'https://picsum.photos/seed/peppers/104/104.jpg' },
+        { name: 'Avocado', cal: 234, protein: 3, carbs: 12, fat: 21, img: 'https://picsum.photos/seed/avocado/104/104.jpg' },
+        { name: 'Mixed Salad', cal: 20, protein: 1.5, carbs: 3, fat: 0.2, img: 'https://picsum.photos/seed/salad/104/104.jpg' },
+        { name: 'Kale', cal: 49, protein: 4, carbs: 9, fat: 0.9, img: 'https://picsum.photos/seed/kale/104/104.jpg' }
+      ],
+      Fruits: [
+        { name: 'Banana', cal: 105, protein: 1.3, carbs: 27, fat: 0.4, img: 'https://picsum.photos/seed/banana/104/104.jpg' },
+        { name: 'Blueberries', cal: 84, protein: 1, carbs: 21, fat: 0.5, img: 'https://picsum.photos/seed/blueberries/104/104.jpg' },
+        { name: 'Apple', cal: 95, protein: 0.5, carbs: 25, fat: 0.3, img: 'https://picsum.photos/seed/apple/104/104.jpg' },
+        { name: 'Mango', cal: 99, protein: 1.4, carbs: 25, fat: 0.6, img: 'https://picsum.photos/seed/mango/104/104.jpg' }
+      ],
+      Dairy: [
+        { name: 'Greek Yogurt', cal: 100, protein: 17, carbs: 6, fat: 0.7, img: 'https://picsum.photos/seed/yogurt/104/104.jpg' },
+        { name: 'Cottage Cheese', cal: 98, protein: 11, carbs: 3.4, fat: 4.3, img: 'https://picsum.photos/seed/cottage/104/104.jpg' },
+        { name: 'Cheddar Slice', cal: 113, protein: 7, carbs: 0.4, fat: 9, img: 'https://picsum.photos/seed/cheddar/104/104.jpg' }
+      ]
+    };
+
+    // --- State ---
+    // 1. Load current cart from localStorage if it exists, otherwise empty array
+    let selectedFoods = JSON.parse(localStorage.getItem('healthyLeafCurrentMeal') || '[]');
+    let currentCategory = 'Proteins';
+    let currentMealType = localStorage.getItem('healthyLeafCurrentMealType') || 'breakfast';
+    
+    const CIRCUMFERENCE = 2 * Math.PI * 30; // ≈ 188.5
+    const CAL_GOAL = 700;
+    const PROTEIN_GOAL = 50;
+    const CARB_GOAL = 80;
+    const FAT_GOAL = 30;
+
+    // Set initial active meal type button based on local storage
+    document.querySelectorAll('.meal-type-btn').forEach(btn => {
+      if (btn.dataset.type === currentMealType) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+    document.getElementById('mealTypeLabel').textContent = currentMealType.charAt(0).toUpperCase() + currentMealType.slice(1);
+
+    // --- Render category tabs ---
+    function renderCategoryTabs() {
+      const tabs = document.getElementById('categoryTabs');
+      tabs.innerHTML = Object.keys(foodData).map(cat =>
+        `<button class="category-tab ${cat === currentCategory ? 'active' : ''}" data-cat="${cat}">${cat}</button>`
+      ).join('');
+
+      tabs.querySelectorAll('.category-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          currentCategory = tab.dataset.cat;
+          renderCategoryTabs();
+          renderFoodGrid();
+        });
+      });
+    }
+
+    // --- Render food grid ---
+    function renderFoodGrid() {
+      const grid = document.getElementById('foodGrid');
+      const items = foodData[currentCategory] || [];
+
+      grid.innerHTML = items.map(item => {
+        const inMeal = selectedFoods.some(f => f.name === item.name);
+        return `
+          <div class="food-item ${inMeal ? 'in-meal' : ''}" data-name="${item.name}">
+            <img src="${item.img}" alt="${item.name}" class="food-item-img">
+            <div class="food-item-info">
+              <div class="food-item-name">${item.name}</div>
+              <div class="food-item-cal">${item.cal} kcal · P:${item.protein}g C:${item.carbs}g F:${item.fat}g</div>
+            </div>
+            <button class="food-item-add" aria-label="${inMeal ? 'Remove' : 'Add'} ${item.name}">
+              <i class="fas ${inMeal ? 'fa-check' : 'fa-plus'}"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      grid.querySelectorAll('.food-item').forEach(el => {
+        el.addEventListener('click', () => toggleFood(el.dataset.name));
+      });
+    }
+
+    // --- Toggle food item ---
+    function toggleFood(name) {
+      const allFoods = Object.values(foodData).flat();
+      const food = allFoods.find(f => f.name === name);
+      if (!food) return;
+
+      const idx = selectedFoods.findIndex(f => f.name === name);
+      if (idx > -1) {
+        selectedFoods.splice(idx, 1);
+      } else {
+        selectedFoods.push({ ...food });
+      }
+
+      // 2. Save current cart to localStorage on every toggle
+      localStorage.setItem('healthyLeafCurrentMeal', JSON.stringify(selectedFoods));
+
+      renderFoodGrid();
+      renderSummary();
+    }
+
+    // --- Render summary ---
+    function renderSummary() {
+      const totals = selectedFoods.reduce((acc, f) => ({
+        cal: acc.cal + f.cal,
+        protein: acc.protein + f.protein,
+        carbs: acc.carbs + f.carbs,
+        fat: acc.fat + f.fat
+      }), { cal: 0, protein: 0, carbs: 0, fat: 0 });
+
+      // Update rings
+      updateRing('calRing', 'calValue', totals.cal, CAL_GOAL, 'kcal');
+      updateRing('proteinRing', 'proteinValue', totals.protein, PROTEIN_GOAL, 'g');
+      updateRing('carbRing', 'carbValue', totals.carbs, CARB_GOAL, 'g');
+      updateRing('fatRing', 'fatValue', totals.fat, FAT_GOAL, 'g');
+
+      // Update selected items list
+      const list = document.getElementById('selectedItems');
+      if (selectedFoods.length === 0) {
+        list.innerHTML = '<div class="empty-meal"><i class="fas fa-plus-circle"></i>Click items to add them to your meal</div>';
+      } else {
+        list.innerHTML = selectedFoods.map(f => `
+          <div class="selected-item">
+            <span class="selected-item-name">${f.name}</span>
+            <span class="selected-item-cal">${f.cal} kcal</span>
+            <button class="selected-item-remove" data-name="${f.name}" aria-label="Remove ${f.name}">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `).join('');
+
+        list.querySelectorAll('.selected-item-remove').forEach(btn => {
+          btn.addEventListener('click', () => toggleFood(btn.dataset.name));
+        });
+      }
+
+      document.getElementById('totalCalories').textContent = `${Math.round(totals.cal)} kcal`;
+    }
+
+    function updateRing(ringId, valueId, current, goal, unit) {
+      const ring = document.getElementById(ringId);
+      const value = document.getElementById(valueId);
+      const pct = Math.min(current / goal, 1);
+      const offset = CIRCUMFERENCE * (1 - pct);
+      ring.style.strokeDashoffset = offset;
+      value.textContent = `${Math.round(current)}${unit}`;
+    }
+
+    // --- Meal type buttons ---
+    document.querySelectorAll('.meal-type-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.meal-type-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMealType = btn.dataset.type;
+        document.getElementById('mealTypeLabel').textContent =
+          currentMealType.charAt(0).toUpperCase() + currentMealType.slice(1);
+        
+        // Save chosen meal type to localStorage
+        localStorage.setItem('healthyLeafCurrentMealType', currentMealType);
+      });
+    });
+
+    // --- Order meal ---
+    function orderMeal() {
+      if (selectedFoods.length === 0) {
+        showToast('Please add some items to your meal first', 'fa-exclamation-circle');
+        return;
+      }
+      
+      const totalCal = selectedFoods.reduce((s, f) => s + f.cal, 0);
+      
+      // 3. Save the completed order to order history in localStorage
+      const orderHistory = JSON.parse(localStorage.getItem('healthyLeafOrders') || '[]');
+      const newOrder = {
+        id: Date.now(),
+        type: currentMealType,
+        items: selectedFoods.map(f => f.name),
+        totalCalories: Math.round(totalCal),
+        date: new Date().toLocaleString()
+      };
+      orderHistory.push(newOrder);
+      localStorage.setItem('healthyLeafOrders', JSON.stringify(orderHistory));
+
+      showToast(`Order placed! ${selectedFoods.length} items, ${Math.round(totalCal)} kcal total`, 'fa-check-circle');
+      
+      // Clear current cart state
+      selectedFoods = [];
+      localStorage.removeItem('healthyLeafCurrentMeal');
+      
+      renderFoodGrid();
+      renderSummary();
+      renderOrderHistory(); // Update the UI list
+    }
+
+    // --- Render Order History ---
+    function renderOrderHistory() {
+      const list = document.getElementById('orderHistoryList');
+      const orderHistory = JSON.parse(localStorage.getItem('healthyLeafOrders') || '[]');
+      
+      if (orderHistory.length === 0) {
+        list.innerHTML = '<div class="empty-history">No past orders yet.</div>';
+        return;
+      }
+
+      // Show most recent first, limit to 5 for UI space
+      const recentOrders = orderHistory.slice(-5).reverse();
+
+      list.innerHTML = recentOrders.map(order => `
+        <div class="history-item">
+          <div class="history-item-header">
+            <span class="history-item-type"><i class="fas fa-utensils"></i> ${order.type}</span>
+            <span class="history-item-cal">${order.totalCalories} kcal</span>
+          </div>
+          <div class="history-items-list" title="${order.items.join(', ')}">
+            ${order.items.join(', ')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- Clear History ---
+    function clearOrderHistory() {
+      localStorage.removeItem('healthyLeafOrders');
+      renderOrderHistory();
+      showToast('Order history cleared', 'fa-trash-alt');
+    }
+
+    // --- Init ---
+    renderCategoryTabs();
+    renderFoodGrid();
+    renderSummary();
+    renderOrderHistory(); // Load history on page load
+  </script>
+</body>
+</html>

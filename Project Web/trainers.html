@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diet Trainer — Healthy Leaf</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* --- Trainers Page --- */
+    .trainers-hero {
+      padding: 80px 24px 40px;
+      text-align: center;
+    }
+
+    .trainers-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .trainers-hero p {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .filter-chip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 10px 22px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .filter-chip:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .filter-chip.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Trainer grid */
+    .trainers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .trainer-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    .trainer-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px var(--shadow);
+      border-color: var(--primary);
+    }
+
+    .trainer-card-top {
+      background: linear-gradient(180deg, var(--accent) 0%, var(--card) 100%);
+      padding: 28px 28px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .trainer-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--card);
+      box-shadow: 0 4px 16px var(--shadow);
+      margin-bottom: 16px;
+      transition: transform var(--transition);
+    }
+
+    .trainer-card:hover .trainer-avatar {
+      transform: scale(1.05);
+    }
+
+    .trainer-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .trainer-specialty {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+    }
+
+    .trainer-card-body {
+      padding: 20px 28px 28px;
+    }
+
+    .trainer-bio {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .trainer-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .trainer-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-light);
+    }
+
+    .trainer-meta-item i {
+      color: var(--primary);
+      font-size: 12px;
+    }
+
+    .trainer-rating {
+      color: #F5A623;
+    }
+
+    .trainer-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .trainer-actions .btn {
+      flex: 1;
+    }
+
+    .trainer-actions .btn-primary {
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+
+    .trainer-actions .btn-outline {
+      padding: 10px 14px;
+      font-size: 14px;
+      border-width: 1.5px;
+    }
+
+    @media (max-width: 700px) {
+      .trainers-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background decoration -->
+  <div class="bg-decoration">
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a href="index.html" class="navbar-brand">Healthy Leaf</a>
+      <div class="navbar-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="trainers.html" class="nav-link active">Diet Trainer</a>
+        <a href="custom-meals.html" class="nav-link">Custom Meals</a>
+        <a href="about.html" class="nav-link">About Us</a>
+      </div>
+      <button class="nav-settings desktop-only" aria-label="Settings">
+        <i class="fas fa-cog"></i> Settings
+      </button>
+      <button class="nav-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <div class="mobile-menu">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="trainers.html" class="nav-link active">Diet Trainer</a>
+      <a href="custom-meals.html" class="nav-link">Custom Meals</a>
+      <a href="about.html" class="nav-link">About Us</a>
+      <button class="nav-link open-settings"><i class="fas fa-cog"></i> Settings</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero -->
+    <section class="trainers-hero">
+      <h1 class="fade-in">Book Your <span class="gradient-text">Diet Expert</span></h1>
+      <p class="fade-in fade-in-delay-1">Get a professional plan for meals and exercises tailored to your unique goals.</p>
+    </section>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar fade-in fade-in-delay-2">
+      <button class="filter-chip active" data-filter="all">All Trainers</button>
+      <button class="filter-chip" data-filter="keto">Keto</button>
+      <button class="filter-chip" data-filter="vegan">Vegan</button>
+      <button class="filter-chip" data-filter="paleo">Paleo</button>
+      <button class="filter-chip" data-filter="weightloss">Weight Loss</button>
+      <button class="filter-chip" data-filter="sports">Sports Nutrition</button>
+    </div>
+
+    <!-- Trainers Grid -->
+    <div class="trainers-grid" id="trainersGrid">
+      <!-- Cards injected by JS -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Healthy Leaf</div>
+        <p class="footer-desc">Your Health, Simplified. Personalized nutrition guidance and meal planning for a healthier, happier you.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="trainers.html">Diet Trainer</a></li>
+          <li><a href="custom-meals.html">Custom Meals</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+          <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+          <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+          <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Healthy Leaf. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay" role="dialog" aria-label="Settings">
+    <div class="modal" style="position:relative;">
+      <button class="modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+      <h2><i class="fas fa-cog"></i> Settings</h2>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Dark Mode</div>
+          <div class="setting-desc">Switch to dark theme</div>
+        </div>
+        <div class="toggle" data-setting="darkMode"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Notifications</div>
+          <div class="setting-desc">Receive meal reminders</div>
+        </div>
+        <div class="toggle active" data-setting="notifications"></div>
+      </div>
+      <div class="setting-row">
+        <div>
+          <div class="setting-label">Metric Units</div>
+          <div class="setting-desc">Use grams and milliliters</div>
+        </div>
+        <div class="toggle active" data-setting="metric"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Trainer data
+    const trainers = [
+      {
+        name: 'Coach Khalid Al-fayz',
+        specialty: 'Keto Specialist',
+        category: 'keto',
+        avatar: 'https://picsum.photos/seed/khalid/220/220.jpg',
+        bio: 'Over 10 years of experience guiding clients through successful ketogenic transformations with sustainable results.',
+        rating: 4.9,
+        reviews: 128,
+        sessions: 940
+      },
+      {
+        name: 'Dr. Sarah Mitchell',
+        specialty: 'Vegan Nutrition',
+        category: 'vegan',
+        avatar: 'https://picsum.photos/seed/sarah/220/220.jpg',
+        bio: 'Board-certified nutritionist specializing in plant-based diets. Helps clients thrive on vegan nutrition without compromises.',
+        rating: 4.8,
+        reviews: 96,
+        sessions: 720
+      },
+      {
+        name: 'Mike Torres',
+        specialty: 'Weight Loss Expert',
+        category: 'weightloss',
+        avatar: 'https://picsum.photos/seed/mike/220/220.jpg',
+        bio: 'Transformed over 500 clients with sustainable weight loss strategies. No fad diets, just science-backed results.',
+        rating: 4.7,
+        reviews: 214,
+        sessions: 1500
+      },
+      {
+        name: 'Lina Cherie',
+        specialty: 'Paleo Coach',
+        category: 'paleo',
+        avatar: 'https://picsum.photos/seed/lina/220/220.jpg',
+        bio: 'Passionate about ancestral health principles. Specializes in paleo and whole-food nutrition plans for optimal wellness.',
+        rating: 4.9,
+        reviews: 87,
+        sessions: 630
+      },
+      {
+        name: 'James Okonkwo',
+        specialty: 'Sports Nutrition',
+        category: 'sports',
+        avatar: 'https://picsum.photos/seed/james/220/220.jpg',
+        bio: 'Former athlete turned sports dietitian. Optimizes performance nutrition for professional and amateur athletes alike.',
+        rating: 4.8,
+        reviews: 156,
+        sessions: 1100
+      },
+      {
+        name: 'Amira Hassan',
+        specialty: 'Keto & Low-Carb',
+        category: 'keto',
+        avatar: 'https://picsum.photos/seed/amira/220/220.jpg',
+        bio: 'Combines keto principles with Mediterranean flavors. Known for creating culturally-adapted meal plans that clients love.',
+        rating: 4.9,
+        reviews: 102,
+        sessions: 780
+      }
+    ];
+
+    function renderTrainers(filter) {
+      const grid = document.getElementById('trainersGrid');
+      const filtered = filter === 'all' ? trainers : trainers.filter(t => t.category === filter);
+
+      grid.innerHTML = filtered.map((t, i) => `
+        <div class="trainer-card fade-in fade-in-delay-${Math.min(i, 3)}">
+          <div class="trainer-card-top">
+            <img src="${t.avatar}" alt="${t.name}" class="trainer-avatar">
+            <div class="trainer-name">${t.name}</div>
+            <div class="trainer-specialty">${t.specialty}</div>
+          </div>
+          <div class="trainer-card-body">
+            <p class="trainer-bio">${t.bio}</p>
+            <div class="trainer-meta">
+              <span class="trainer-meta-item">
+                <i class="fas fa-star trainer-rating"></i> ${t.rating}
+              </span>
+              <span class="trainer-meta-item">
+                <i class="fas fa-comment"></i> ${t.reviews} reviews
+              </span>
+              <span class="trainer-meta-item">
+                <i class="fas fa-calendar-check"></i> ${t.sessions} sessions
+              </span>
+            </div>
+            <div class="trainer-actions">
+              <button class="btn btn-primary" onclick="showToast('Session request sent to ${t.name}', 'fa-calendar-check')">
+                Book a Session
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="showToast('${t.name}\\'s profile saved to favorites', 'fa-heart')">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Re-trigger fade-in for new elements
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.trainer-card.fade-in').forEach(el => {
+          el.classList.add('visible');
+        });
+      });
+    }
+
+    // Filter chips
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        renderTrainers(chip.dataset.filter);
+      });
+    });
+
+    // Initial render
+    renderTrainers('all');
+  </script>
+</body>
+</html>
