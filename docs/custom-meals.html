@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Leaf - Custom Meals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&family=Noto+Sans+Arabic:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="navbar-brand">Healthy Leaf</a>
+            <div class="navbar-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="trainers.html" class="nav-link">Diet Trainer</a>
+                <a href="custom-meals.html" class="nav-link active">Custom Meals</a>
+                <a href="about.html" class="nav-link">About Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <div class="text-center mb-3">
+            <h1>Build Your <span class="text-primary">Custom Meal</span></h1>
+            <p>Select ingredients and we'll calculate the nutrition facts.</p>
+        </div>
+
+        <div class="meals-layout">
+            <div>
+                <h3>Select Items:</h3>
+                <div id="foodGrid" class="mt-2">
+                </div>
+            </div>
+
+            <div class="card meal-sidebar">
+                <h3>Your Meal</h3>
+                <div id="selectedList" class="mt-2">
+                </div>
+
+                <table class="macro-table mt-3">
+                    <tr>
+                        <td>Calories:</td>
+                        <td class="macro-value" id="totalCal">0</td>
+                    </tr>
+                    <tr>
+                        <td>Protein:</td>
+                        <td class="macro-value" id="totalProtein">0g</td>
+                    </tr>
+                    <tr>
+                        <td>Carbs:</td>
+                        <td class="macro-value" id="totalCarbs">0g</td>
+                    </tr>
+                    <tr>
+                        <td>Fat:</td>
+                        <td class="macro-value" id="totalFat">0g</td>
+                    </tr>
+                    <tr>
+                        <td>Fiber:</td>
+                        <td class="macro-value" id="totalFiber">0g</td>
+                    </tr>
+                </table>
+
+                <button class="btn btn-primary mt-3 w-full" onclick="placeOrder()">
+                    Place Order
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="simple-footer">&copy; 2025 Healthy Leaf</footer>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/meals.js"></script>
+</body>
+</html>
