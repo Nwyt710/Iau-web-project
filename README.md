@@ -13,3 +13,6 @@ Making a website to help them expand their range of customers.
 
 ## Gnatt Chart
 ![Gnatt chart](Gnatt_chart.png)
+
+
+inside the docs folder theres the website files
