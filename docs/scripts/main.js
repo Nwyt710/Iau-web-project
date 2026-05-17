@@ -1,7 +1,7 @@
 
 function getCurrentUser() {
     try {
-        var s = localStorage.getItem('healthyLeafUser');
+        let s = localStorage.getItem('healthyLeafUser');
         if (s) return JSON.parse(s);
     } catch (e) {
         localStorage.removeItem('healthyLeafUser');
@@ -15,11 +15,11 @@ function logout() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    var user = getCurrentUser();
-    var nav = document.querySelector('.navbar-links');
+    let user = getCurrentUser();
+    let nav = document.querySelector('.navbar-links');
     if (!nav) return;
 
-    var link = document.createElement('a');
+    let link = document.createElement('a');
     link.className = 'nav-link logout-btn';
 
     if (user && user.isLoggedIn) {
